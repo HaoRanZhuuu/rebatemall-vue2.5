@@ -2,14 +2,14 @@
     <div class="icons">
       <swiper :options="swiperOption">
         <swiper-slide v-for="(page, index) of pages" :key="index">
-          <div class="icons-set" v-for="item of page" :key="item.id">
+          <router-link tag="div" class="icons-set" v-for="item of page" :key="item.id" :to="'/searchList/' + userId + '/' + item.desc">
             <div class="icon-img">
               <svg class="iconfont icon-img-content icon" aria-hidden="true">
                 <use :xlink:href="item.iconCode"></use>
               </svg>
             </div>
             <p class="icon-desc">{{item.desc}}</p>
-          </div>
+          </router-link>
         </swiper-slide>
       </swiper>
     </div>
@@ -18,6 +18,9 @@
 <script>
 export default {
   name: 'HomeIcons',
+  props: {
+    userId: ''
+  },
   data: function () {
     return {
       iconList: [{
@@ -58,7 +61,7 @@ export default {
         desc: '厨具'
       }],
       swiperOption: {
-        loop: true
+        autoplay: false
       }
     }
   },
@@ -106,20 +109,19 @@ export default {
           height 100%
       .icon-desc
         position  absolute
+        top 1.3rem
         left 0
         right 0
-        bottom 0
-        height .44rem
-        line-height .44rem
         text-align center
         color $darkTextColor
+        font-size .3rem
         ellipsis()
     .iconfont
       font-size 64px
-    .icon {
-      width: 1em; height: 1em;
-      vertical-align: -0.15em;
+    .icon
+      width: 1rem; height: 1rem;
+      vertical-align: -0.15rem;
       fill: currentColor;
       overflow: hidden;
-  }
+
 </style>

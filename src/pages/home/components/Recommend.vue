@@ -1,39 +1,47 @@
 <template>
   <div>
-    <div class="recommend-title">热销推荐</div>
     <ul>
-      <div class="item border-bottom" v-for="(item , index) of recommendList" v-if="index%2==0" :key="index">
-        <div class="item-lr" v-if="index < recommendList.length" :key="index">
-          <img class="item-img" :src="recommendList[index].iconUrl"/>
+      <div class="item border-bottom" v-for="(item , index) of list" v-if="index%2==0" :key="index" >
+        <router-link tag="div"
+                     class="item-lr"
+                     v-if="index < list.length"
+                     :key="index"
+                     :to="'/detail/'+ userId + '/' + list[index].productId"
+        >
+          <img class="item-img" :src="'http://192.168.58.103:80' + list[index].productIcon"/>
           <div class="item-info">
-            <p class="item-title">{{recommendList[index].productName}}</p>
+            <p class="item-title">{{list[index].productName}}</p>
           </div>
           <div class="item-info">
             <div class="item-money">
-              <p class="item-money-old">￥{{recommendList[index].oldMoney}}</p>
-              <b class="item-money-new">￥{{recommendList[index].newMoney}}</b>
+              <p class="item-money-old">￥{{list[index].productPrice}}</p>
+              <b class="item-money-new">￥{{list[index].productPrice - list[index].productDiscount}}</b>
             </div>
             <div class="item-iconfont">
               <span class="iconfont">&#xe63b;</span>
             </div>
           </div>
-        </div>
-        <div class="item-lr" v-if="index < recommendList.length - 1" :key="index+1">
-          <img class="item-img" :src="recommendList[index + 1].iconUrl"/>
+        </router-link>
+        <router-link tag="div"
+                     class="item-lr"
+                     v-if="index < list.length - 1"
+                     :key="index+1"
+                     :to="'/detail/'+ userId + '/' + list[index + 1].productId"
+        >
+          <img class="item-img" :src="list[index + 1].productIcon"/>
           <div class="item-info">
-            <p class="item-title">{{recommendList[index + 1].productName}}</p>
+            <p class="item-title">{{list[index + 1].productName}}</p>
           </div>
           <div class="item-info">
             <div class="item-money">
-              <p class="item-money-old">￥{{recommendList[index + 1].oldMoney}}</p>
-              <b class="item-money-new">￥{{recommendList[index + 1].newMoney}}</b>
+              <p class="item-money-old">￥{{list[index + 1].productPrice}}</p>
+              <b class="item-money-new">￥{{list[index + 1].productPrice - list[index + 1].productDiscount}}</b>
             </div>
             <div class="item-iconfont">
               <span class="iconfont">&#xe63b;</span>
             </div>
           </div>
-        </div>
-
+        </router-link>
       </div>
     </ul>
   </div>
@@ -41,41 +49,16 @@
 </template>
 
 <script>
+import ipConfig from '../../../../config/global'
 export default {
   name: 'HomeRecommend',
+  props: {
+    list: Array,
+    userId: String
+  },
   data () {
     return {
-      recommendList: [{
-        id: '0001',
-        iconUrl: 'http://img.alicdn.com/imgextra/i2/13933024215842254/T171dgFnNeXXXXXXXX_!!0-item_pic.jpg_760x760Q50s50.jpg',
-        productName: '金卧ins可爱少女1.5m1.8m米床蚊帐儿童房公主吊',
-        oldMoney: '2999',
-        newMoney: '1999'
-      }, {
-        id: '0002',
-        iconUrl: 'http://img.alicdn.com/imgextra/i2/13933024215842254/T171dgFnNeXXXXXXXX_!!0-item_pic.jpg_760x760Q50s50.jpg',
-        productName: '金卧ins可爱少女1.5m1.8m米床蚊帐儿童房公主吊',
-        oldMoney: '2999',
-        newMoney: '599'
-      }, {
-        id: '0003',
-        iconUrl: 'http://img.alicdn.com/imgextra/i2/13933024215842254/T171dgFnNeXXXXXXXX_!!0-item_pic.jpg_760x760Q50s50.jpg',
-        productName: '金卧ins可爱少女1.5m1.8m米床蚊帐儿童房公主吊',
-        oldMoney: '2999',
-        newMoney: '999'
-      }, {
-        id: '0004',
-        iconUrl: 'http://img.alicdn.com/imgextra/i2/13933024215842254/T171dgFnNeXXXXXXXX_!!0-item_pic.jpg_760x760Q50s50.jpg',
-        productName: '金卧ins可爱少女1.5m1.8m米床蚊帐儿童房公主吊',
-        oldMoney: '2999',
-        newMoney: '999'
-      }, {
-        id: '0005',
-        iconUrl: 'http://img.alicdn.com/imgextra/i2/13933024215842254/T171dgFnNeXXXXXXXX_!!0-item_pic.jpg_760x760Q50s50.jpg',
-        productName: '金卧ins可爱少女1.5m1.8m米床蚊帐儿童房公主吊',
-        oldMoney: '2999',
-        newMoney: '999'
-      }]
+      config: ipConfig
     }
   }
 }
@@ -84,27 +67,20 @@ export default {
 <style lang="stylus" scoped>
   .iconfont
     font-size 20px
-  .recommend-title
-    margin-top .2rem
-    line-height .8rem
-    background #eee
-    color red
-    font-size large
-    text-align center
   .item
     overflow hidden
     display flex
-    height 5rem
+    height 5.5rem
     background #eee
     .item-lr
       background white
-      width 3rem
-      height 4.8rem
+      width 3.4rem
+      height 5.3rem
       margin .1rem
       border-radius .2rem
       .item-img
-        width 3rem
-        height 3rem
+        width 3.4rem
+        height 3.4rem
         border-radius .2rem .2rem 0rem 0rem
       .item-info
         padding-left .15rem
@@ -114,22 +90,25 @@ export default {
           word-wrap break-word
           word-break break-all
           overflow hidden
-          font-size smaller
+          font-size .3rem
           line-height .3rem
         .item-money
           float left
-          font-size small
+          font-size .3rem
           color #ccc
           .item-money-old
-            font-size small
+            position absolute
+            top 4.4rem
+            font-size .3rem
             color #ccc
             text-decoration line-through
           .item-money-new
+            position absolute
+            top 4.7rem
             color red
-            font-size large
+            font-size .4rem
             line-height .7rem
         .item-iconfont
-          padding-top .4rem
-          padding-right .2rem
-          float right
+          padding-top .7rem
+          padding-left 2.5rem
 </style>
